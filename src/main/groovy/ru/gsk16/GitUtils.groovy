@@ -8,7 +8,7 @@ class GitUtils {
      * @return Результат выполнения команды.
      */
     static String executeCommand(String command) {
-        println "Executing command: ${command}"
+        println "Выполняю команду: ${command}"
         def process = new ProcessBuilder()
                 .command("sh", "-c", command)
                 .redirectErrorStream(true)
@@ -16,10 +16,13 @@ class GitUtils {
         process.waitFor()
 
         def output = process.inputStream.text.trim()
-        println "Command output: ${output}"
+        println "Результат команды: ${output}"
 
         if (process.exitValue() != 0) {
-            throw new RuntimeException("Command failed: ${command}\nOutput: ${output}")
+            throw new RuntimeException("""
+                Ошибка при выполнении команды: ${command}
+                Output: ${output}
+            """.stripIndent())
         }
         return output ?: ""
     }
