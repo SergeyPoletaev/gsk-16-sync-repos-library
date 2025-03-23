@@ -1,0 +1,19 @@
+plugins {
+    id 'groovy'
+}
+
+group = 'ru.gsk-16'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.14' // Версия Groovy
+    testImplementation 'org.spockframework:spock-core:2.4-M5-groovy-4.0' // Для тестов
+}
+
+test {
+    useJUnitPlatform()
+}
