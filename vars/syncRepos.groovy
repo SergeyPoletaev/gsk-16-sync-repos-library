@@ -111,5 +111,5 @@ def call(Map params) {
     def branches = params.branches
     def tags = params.tags
 
-    GitUtils.syncRepos(sourceRepoUrl, targetRepoUrl, [branches: branches, tags: tags])
+    GitUtils.syncRepos(sourceRepoUrl as String, targetRepoUrl as String, [branches: branches, tags: tags])
 }
