@@ -9,9 +9,22 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['test']
+        }
+    }
+}
+
 dependencies {
-    implementation 'org.apache.groovy:groovy:4.0.14' // Версия Groovy
-    testImplementation 'org.spockframework:spock-core:2.4-M5-groovy-4.0' // Для тестов
+    implementation 'org.apache.groovy:groovy:4.0.14'
+    testImplementation 'org.spockframework:spock-core:2.4-M5-groovy-4.0'
 }
 
 test {
