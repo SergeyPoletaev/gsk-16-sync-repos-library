@@ -37,7 +37,7 @@ class GitUtils {
         def branches = options.branches
         def tags = options.tags
 
-        def tempDir = "temp-repo"
+        def tempDir = "${System.getProperty('java.io.tmpdir')}/temp-repo"
         def tempRepoDir = new File(tempDir)
 
         try {
