@@ -40,13 +40,13 @@ def call(Map params) {
     }
     def steps = params.steps
 
-    steps.echo "Синхронизация репозиториев:"
-    steps.echo "  Исходный репозиторий: ${params.sourceRepoUrl}"
-    steps.echo "  Целевой репозиторий: ${params.targetRepoUrl}"
+    steps.echo "--> Синхронизация репозиториев:"
+    steps.echo "  - Исходный репозиторий: ${params.sourceRepoUrl}"
+    steps.echo "  - Целевой репозиторий: ${params.targetRepoUrl}"
 
     def sourceRepoUrl = params.sourceRepoUrl
     def targetRepoUrl = params.targetRepoUrl
 
     GitUtils.syncReposAsMirror(sourceRepoUrl as String, targetRepoUrl as String, steps)
-    steps.echo "Синхронизация завершена."
+    steps.echo "--> Синхронизация завершена."
 }

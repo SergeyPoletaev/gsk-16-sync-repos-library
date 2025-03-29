@@ -37,20 +37,20 @@ class GitUtils {
         def tempRepoDir = new File(tempDir)
 
         try {
-            steps.echo "Используется временная директория: ${tempDir}"
+            steps.echo "--> Используется временная директория: ${tempDir}"
             if (!tempRepoDir.exists()) {
                 tempRepoDir.mkdirs()
             }
             executeCommand("git clone --mirror ${sourceRepoUrl} ${tempDir}", steps)
-            steps.echo "Репозиторий успешно клонирован."
+            steps.echo "--> Репозиторий успешно клонирован."
             executeCommand("cd ${tempDir} && git remote add target ${targetRepoUrl}", steps)
-            steps.echo "Удалённый репозиторий добавлен."
+            steps.echo "--> Удалённый репозиторий добавлен."
             executeCommand("cd ${tempDir} && git push target --mirror", steps)
-            steps.echo "Данные успешно синхронизированы."
+            steps.echo "--> Данные успешно синхронизированы."
         } finally {
             if (tempRepoDir.exists()) {
                 tempRepoDir.deleteDir()
-                steps.echo "Временная директория удалена."
+                steps.echo "--> Временная директория удалена."
             }
         }
     }
