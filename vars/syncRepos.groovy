@@ -38,14 +38,15 @@ def call(Map params) {
         throw new IllegalArgumentException(
                 "Обязательные параметры sourceRepoUrl и targetRepoUrl должны быть указаны.")
     }
+    def steps = params.steps
 
-    echo "Синхронизация репозиториев:"
-    echo "  Исходный репозиторий: ${params.sourceRepoUrl}"
-    echo "  Целевой репозиторий: ${params.targetRepoUrl}"
+    steps.echo "Синхронизация репозиториев:"
+    steps.echo "  Исходный репозиторий: ${params.sourceRepoUrl}"
+    steps.echo "  Целевой репозиторий: ${params.targetRepoUrl}"
 
     def sourceRepoUrl = params.sourceRepoUrl
     def targetRepoUrl = params.targetRepoUrl
 
-    GitUtils.syncReposAsMirror(sourceRepoUrl as String, targetRepoUrl as String)
-    echo "Синхронизация завершена."
+    GitUtils.syncReposAsMirror(sourceRepoUrl as String, targetRepoUrl as String, steps)
+    steps.echo "Синхронизация завершена."
 }
