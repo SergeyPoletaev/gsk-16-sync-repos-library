@@ -28,42 +28,22 @@ class GitUtils {
     }
 
     /**
-     * Синхронизирует указанные ветки и теги между двумя репозиториями.
+     * Синхронизирует два репозитория как зеркало.
      * @param sourceRepoUrl URL исходного репозитория.
      * @param targetRepoUrl URL целевого репозитория.
-     * @param options Опции синхронизации (branches, tags).
      */
-    static void syncRepos(String sourceRepoUrl, String targetRepoUrl, Map options = [:]) {
-        def branches = options.branches
-        def tags = options.tags
-
-        def tempDir = "${System.getProperty('java.io.tmpdir')}/temp-repo"
+    static void syncReposAsMirror(String sourceRepoUrl, String targetRepoUrl) {
+        def tempDir = "${System.getProperty('java.io.tmpdir')}/temp-repo-${UUID.randomUUID()}"
         def tempRepoDir = new File(tempDir)
 
         try {
+            println "Используется временная директория: ${tempDir}"
+            if (!tempRepoDir.exists()) {
+                tempRepoDir.mkdirs()
+            }
             executeCommand("git clone --mirror ${sourceRepoUrl} ${tempDir}")
             executeCommand("cd ${tempDir} && git remote add target ${targetRepoUrl}")
-
-            if (options.containsKey("branches")) {
-                println "--> Ключ 'branches' присутствует. Ветки: ${branches}"
-                branches?.each { branch ->
-                    executeCommand("cd ${tempDir} && git push target refs/heads/${branch}:refs/heads/${branch}")
-                }
-            } else {
-                println "--> Ключ 'branches' отсутствует. Синхронизируем все ветки."
-                executeCommand("cd ${tempDir} && git push target --all")
-            }
-
-            if (options.containsKey("tags")) {
-                println "--> Ключ 'tags' присутствует. Теги: ${tags}"
-                tags?.each { tag ->
-                    executeCommand("cd ${tempDir} && git push target refs/tags/${tag}:refs/tags/${tag}")
-                }
-            } else {
-                println "--> Ключ 'tags' отсутствует. Синхронизируем все теги."
-                executeCommand("cd ${tempDir} && git push target --tags")
-            }
-
+            executeCommand("cd ${tempDir} && git push target --mirror")
         } finally {
             if (tempRepoDir.exists()) {
                 tempRepoDir.deleteDir()
