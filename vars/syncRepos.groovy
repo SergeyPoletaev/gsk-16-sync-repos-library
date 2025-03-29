@@ -40,8 +40,8 @@ def call(Map params) {
     }
 
     echo "Синхронизация репозиториев:"
-    echo "  Исходный репозиторий: ${sourceRepoUrl}"
-    echo "  Целевой репозиторий: ${targetRepoUrl}"
+    echo "  Исходный репозиторий: ${params.sourceRepoUrl}"
+    echo "  Целевой репозиторий: ${params.targetRepoUrl}"
 
     def sourceRepoUrl = params.sourceRepoUrl
     def targetRepoUrl = params.targetRepoUrl
