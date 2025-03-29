@@ -8,7 +8,7 @@ class GitUtils {
      * @return Результат выполнения команды.
      */
     static String executeCommand(String command) {
-        println "--> Выполняю команду: ${command}"
+        echo "--> Выполняю команду: ${command}"
         def process = new ProcessBuilder()
                 .command("sh", "-c", command)
                 .redirectErrorStream(true)
@@ -16,7 +16,7 @@ class GitUtils {
         process.waitFor()
 
         def output = process.inputStream.text.trim()
-        println "--> Результат команды: ${output}"
+        echo "--> Результат команды: ${output}"
 
         if (process.exitValue() != 0) {
             throw new RuntimeException("""
@@ -37,16 +37,20 @@ class GitUtils {
         def tempRepoDir = new File(tempDir)
 
         try {
-            println "Используется временная директория: ${tempDir}"
+            echo "Используется временная директория: ${tempDir}"
             if (!tempRepoDir.exists()) {
                 tempRepoDir.mkdirs()
             }
             executeCommand("git clone --mirror ${sourceRepoUrl} ${tempDir}")
+            echo "Репозиторий успешно клонирован."
             executeCommand("cd ${tempDir} && git remote add target ${targetRepoUrl}")
+            echo "Удалённый репозиторий добавлен."
             executeCommand("cd ${tempDir} && git push target --mirror")
+            echo "Данные успешно синхронизированы."
         } finally {
             if (tempRepoDir.exists()) {
                 tempRepoDir.deleteDir()
+                echo "Временная директория удалена."
             }
         }
     }

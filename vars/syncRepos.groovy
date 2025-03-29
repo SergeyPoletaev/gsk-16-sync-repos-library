@@ -39,8 +39,13 @@ def call(Map params) {
                 "Обязательные параметры sourceRepoUrl и targetRepoUrl должны быть указаны.")
     }
 
+    echo "Синхронизация репозиториев:"
+    echo "  Исходный репозиторий: ${sourceRepoUrl}"
+    echo "  Целевой репозиторий: ${targetRepoUrl}"
+
     def sourceRepoUrl = params.sourceRepoUrl
     def targetRepoUrl = params.targetRepoUrl
 
     GitUtils.syncReposAsMirror(sourceRepoUrl as String, targetRepoUrl as String)
+    echo "Синхронизация завершена."
 }
